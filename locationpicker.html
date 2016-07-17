@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Location Picker - Muhammad Nur Hidayat</title>
+	<meta name="description" content="iOS Developer, Senior Web Programmer, System Analyst, Creative Worker" lang="en">
+	<meta name="description" content="iOS Developer, Senior Web Programmer, System Analyst, Creative Worker" lang="id">
+	<meta name="keywords" content="Muhammad Nur Hidayat, Swift, Objective-C, PHP, JQuery, Laravel, CodeIgniter, HTML5, CSS, CSS3, Sketch, CorelDraw, Photoshop, Senior Web Programmer, iOS Developer, System Analyst, Creative Worker, Yogyakarta, Indonesia" lang="en">
+	<meta name="keywords" content="Muhammad Nur Hidayat, Swift, Objective-C, PHP, JQuery, Laravel, CodeIgniter, HTML5, CSS, CSS3, Sketch, CorelDraw, Photoshop, Senior Web Programmer, iOS Developer, System Analyst, Creative Worker, Yogyakarta, Indonesia" lang="id">
+	<meta name="copyright" content="Copyright (C) 2016 MuhammadNurHidayat.com">
+	<meta name="robots" content="Index, follow">
+	<meta name="expires" content="never">
+	<meta name="rating" content="general">
+	<meta name="distribution" content="global">
+	<meta name="language" content="id">
+	<meta name="classification" content="Muhammad Nur Hidayat, Swift, Objective-C, PHP, Laravel, CodeIgniter, Javascript, Jquery, HTML5, CSS3, CorelDraw, Photoshop, Senior Web Programmer, System Analyst, Creative Worker">
+
+	<meta name="author" content="Muhammad Nur Hidayat">
+	<meta name="Identifier-URL" content="http://www.muhammadnurhidayat.com">
+
+	<meta property="article:author" content="https://www.facebook.com/seebeb">
+	<meta property="og:title" content="Location Picker - Muhammad Nur Hidayat">
+	<meta property="og:description" content="iOS Developer, Senior Web Programmer, System Analyst, Creative Worker">
+	<meta property="og:url" content="http://muhammadnurhidayat.com">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="http://muhammadnurhidayat.com/public/img/profile_picture.jpg">
+	<meta property="og:site_name" content="muhammadnurhidayat.com">
+	<meta property="og:locale" content="id_ID">
+
+	<link href="http://muhammadnurhidayat.com/public/css/dist.css" rel="stylesheet">
+	<link href="http://muhammadnurhidayat.com/public/favicon/favico.ico" rel="shortcut icon" type="image/x-icon">
+	<link rel="apple-touch-icon" sizes="57x57" href="public/favicon/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="public/favicon/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="public/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="public/favicon/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="public/favicon/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="public/favicon/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="public/favicon/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="public/favicon/apple-touch-icon-152x152.png">
+	<link rel="icon" type="image/png" href="public/favicon/favicon-196x196.png" sizes="196x196">
+	<link rel="icon" type="image/png" href="public/favicon/favicon-160x160.png" sizes="160x160">
+	<link rel="icon" type="image/png" href="public/favicon/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="public/favicon/favicon-16x16.png" sizes="16x16">
+	<link rel="icon" type="image/png" href="public/favicon/favicon-32x32.png" sizes="32x32">
+	<meta name="msapplication-TileColor" content="#2b5797">
+	<meta name="msapplication-TileImage" content="public/favicon/mstile-144x144.png">
+	<link rel="canonical" href="http://muhammadnurhidayat.com">
+</head>
+<body>
+	<div class="map-canvas" id="map-canvas" style="width:100%; height: calc(100% - 54px); display: block;"></div>
+
+	<div style="width: 100%; padding: 10px 0; text-align: center; display: block;">
+		<form class="form-inline">
+			<input type="text" class="form-control" name="latlang" id="latlng" value="-7.785791,110.391161">
+			<button type="button" class="btn btn-primary" onclick="jumpToLocation()">Jump To Location</button>
+		</form>
+	</div>
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	<script type="text/javascript">
+		var gmapdata;
+		var gmapmarker;
+
+		var def_zoomval = 15;
+		var def_latval = -7.785791;
+		var def_longval = 110.391161;
+
+		function mapInit() {
+			var myLatlng = new google.maps.LatLng(def_latval, def_longval)
+
+			var latlngpos = document.getElementById("latlng");
+			var mapOptions = {
+				zoom: def_zoomval,
+				center: myLatlng,
+				mapTypeControlOptions: {
+					style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+				},
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			}
+			gmapdata = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+			gmapmarker = new google.maps.Marker({
+					position: myLatlng,
+					map: gmapdata,
+					draggable: true,
+			});
+
+			google.maps.event.addListener(gmapmarker, "dragend", function(){
+				var markerPosition = gmapmarker.getPosition();
+				latlngpos.value = markerPosition.toUrlValue();
+			});
+		}
+		google.maps.event.addDomListener(window, "load", mapInit);
+
+		// location jumper
+		function jumpToLocation() {
+			var latlngpos = document.getElementById("latlng").value;
+
+			var latlngposArr = latlngpos.split(",");
+			if (latlngposArr.length == 2) {
+				var latval = latlngposArr[0].trim();
+				var longval = latlngposArr[1].trim();
+
+				if (longval.length > 0) {
+					if (isNaN(parseFloat(longval)) == true) {
+						longval = def_longval;
+					}
+				} else {
+					longval = def_longval;
+				}
+
+				if (latval.length > 0) {
+					if (isNaN(parseFloat(latval)) == true) {
+						latval = def_latval;
+					}
+				} else {
+					latval = def_latval;
+				}
+
+				var curpoint = new google.maps.LatLng(latval,longval);
+
+				console.log(latval, longval)
+				gmapmarker.setPosition(curpoint);
+				gmapdata.setCenter(curpoint);
+			}
+		}
+	</script>
+</body>
+</html>
