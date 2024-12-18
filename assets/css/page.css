@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Animate */
+@keyframes ping-small {
+  75%,
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.animate-ping-small {
+  animation: ping-small 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-init {
+  opacity: 0;
+}
+
+.animate-init.animate-slide-right {
+  transform: translateX(-120px);
+}
+
+.animate-init.animate-slide-left {
+  transform: translateX(120px);
+}
+
+.animate-init.animate-show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.animate-init.animate-header, .animate-init.animate-profile-picture {
+  transition: all 500ms;
+}
+
+.animate-init.animate-sub-header {
+  transition: all 500ms 200ms;
+}
+
+.animate-init.animate-sub-header-info {
+  transition: all 500ms 400ms;
+}
+
+.animate-init.animate-sub-header-cta {
+  transition: all 500ms 600ms;
+}
+
+.animate-slide-up-scale.animate {
+  scale: 0;
+  transform: translateX(-120px);
+  transition: all 500ms;
+}
+
+.animate-slide-up-scale.animate.animate-show {
+  scale: 1;
+  transform: translateX(0px);
+}
+
+.animate-scale-in.animate {
+  opacity: 0;
+  scale: 0.4;
+  transition: all 500ms;
+}
+
+.animate-scale-in.animate.animate-show {
+  opacity: 1;
+  scale: 1;
+}
+
+.animate-fade-in.animate {
+  opacity: 0;
+  transition: all 700ms;
+}
+
+.animate-fade-in.animate.animate-show {
+  opacity: 1;
+}
+
+.animate-slide-left-fade-in.animate {
+  opacity: 0;
+  transform: translateX(120px);
+  transition: all 500ms;
+}
+
+.animate-slide-left-fade-in.animate.animate-show {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.animate-slide-right-fade-in.animate {
+  opacity: 0;
+  transform: translateX(-120px);
+  transition: all 500ms;
+}
+
+.animate-slide-right-fade-in.animate.animate-show {
+  opacity: 1;
+  transform: translateX(0px);
+}
