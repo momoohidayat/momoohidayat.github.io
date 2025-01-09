@@ -68,6 +68,7 @@
           </p>
           
           <a href="mailto:contact@muhammadnurhidayat.com?subject=I%20Want%20To%20Hire%20You" target="_blank"
+            data-event-name="click_hire_me"
             class="bg-indigo-700 hover:bg-indigo-800 px-10 py-5 rounded-full w-[180px] font-semibold text-center text-white text-xl animate-init animate-slide-right animate-sub-header-cta cta">
             <span class="top-0 right-0 bottom-0 left-0 absolute hidden bg-indigo-500 opacity-55 rounded-full w-full h-full animate-sub-header-cta-ping"></span>
             Hire Me
@@ -781,9 +782,11 @@
       <ul class="flex flex-row justify-center gap-4 text-slate-500">
         <li class="animate animate-scale-in">
           <a href="https://github.com/momoohidayat" target="_blank"
+            data-event-name="click_github_link"
             aria-label="Github Profile"
-            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px]">
+            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px] cta">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+              data-event-name="click_github_link"
               class="justify-center m-auto icon icon-tabler icon-tabler-brand-github icons-tabler-filled size-[32px]">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path
@@ -793,9 +796,11 @@
         </li>
         <li class="animate animate-scale-in">
           <a href="https://www.linkedin.com/in/muhammadnurhidayat/" target="_blank"
+            data-event-name="click_linkedin_link"
             aria-label="LinkedIn Profile"
-            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px]">
+            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px] cta">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+              data-event-name="click_linkedin_link"
               class="justify-center m-auto icon icon-tabler icon-tabler-brand-linkedin icons-tabler-filled size-[32px]">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path
@@ -805,9 +810,11 @@
         </li>
         <li class="animate animate-scale-in">
           <a href="mailto:contact@muhammadnurhidayat.com?subject=I%20Want%20To%20Hire%20You" target="_blank"
+            data-event-name="click_email_link"
             aria-label="Email Directly"
-            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px]">
+            class="flex flex-col border-2 border-slate-400 rounded-full min-w-[52px] max-w-[52px] min-h-[52px] max-h-[52px] cta">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"
+              data-event-name="click_email_link"
               class="justify-center m-auto icon icon-tabler icon-tabler-mail icons-tabler-filled size-[32px]">
               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
               <path
@@ -819,5 +826,38 @@
       </ul>
     </div>
   </section>
+
+  <script type="module" defer>
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+    import { getAnalytics, logEvent } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js"; 
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBJYnG3qanSIoxpFeMX32QdMEf3jllKgCw",
+      authDomain: "muhammadnurhidayat-47518.firebaseapp.com",
+      projectId: "muhammadnurhidayat-47518",
+      storageBucket: "muhammadnurhidayat-47518.firebasestorage.app",
+      messagingSenderId: "718210439441",
+      appId: "1:718210439441:web:efc12cf72632490e6894b0",
+      measurementId: "G-MRCVSK8R92"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    // Log event
+    const ctas = document.querySelectorAll('.cta');
+
+    ctas.forEach((cta) => {
+      cta.addEventListener('click', (e) => {
+        let eventName = e.target.getAttribute('data-event-name');
+        if (eventName == null) {
+          eventName = e.target.parentElement.getAttribute('data-event-name');
+        }
+        console.log(eventName);
+        logEvent(analytics, eventName);
+      });
+    });
+  </script>
 </body>
 </html>
